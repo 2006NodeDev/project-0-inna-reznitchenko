@@ -1,6 +1,9 @@
 // The Reimbursement model is used to represent a single reimbursement 
 // that an employee would submit
 
+import { ReimbursementType } from "./ReimbursementType"
+import { ReimbursementStatus } from "./ReimbursementStatus"
+
 export class Reimbursement{
     reimbursementId: number // primary key
     author: number  // foreign key -> User, not null
@@ -9,6 +12,6 @@ export class Reimbursement{
     dateResolved: number // not null
     description: string // not null
     resolver: number // foreign key -> User
-    status: number // foreign ey -> ReimbursementStatus, not null
-    type: number // foreign key -> ReimbursementType
+    status: ReimbursementStatus // foreign ey -> ReimbursementStatus, not null
+    type: ReimbursementType // foreign key -> ReimbursementType
 }
