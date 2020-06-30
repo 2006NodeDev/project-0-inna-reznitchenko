@@ -9,4 +9,5 @@ const sessionConfig:SessionOptions = {
     saveUninitialized:false
 }
 
+//call session with our session config
 export const sessionMiddleware = session(sessionConfig)
