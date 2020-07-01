@@ -125,24 +125,6 @@ export async function saveNewReimbursement(newReimbursement:Reimbursement):Promi
     try{
         client = await connectionPool.connect()
         await client.query('BEGIN;')
-        //check if the status_ID, type_ID, author, and resolver are valid users
-        let statusId = await client.query(`select rs.status_id 
-        from user_reimbursement.reimbursement_status rs
-        where rs.status_id = $1`, [newReimbursement.status])
-
-        if(statusId.rowCount === 0){
-            throw new Error('Status Not Found.')
-        }
-        statusId = statusId.rows[0].status_id
-
-        let typeId = await client.query(`select rt.type_id 
-        from user_reimbursement.reimbursement_types rt
-        where rt.type_id = $1`, [newReimbursement.type])
-        
-        if(typeId.rowCount === 0){
-            throw new Error('Type Not Found.')
-        }
-        typeId = typeId.rows[0].type_id
         
         let author = await client.query(`select u.user_id
         from user_reimbursement.users u
@@ -151,7 +133,6 @@ export async function saveNewReimbursement(newReimbursement:Reimbursement):Promi
         if(author.rowCount === 0){
             throw new Error('Author Not Found.')
         }
-        //author = author.rows[0].author
 
         let resolver = await client.query(`select u.user_id
         from user_reimbursement.users u
@@ -160,7 +141,22 @@ export async function saveNewReimbursement(newReimbursement:Reimbursement):Promi
         if(resolver.rowCount === 0){
             throw new Error('Resolver Not Found.')
         }
-        //resolver = resolver.rows[0].resolver
+        let statusId = await client.query(`select s.status_id from user_reimbursement.reimbursement_status s 
+        where s.status = $1`, [newReimbursement.status])
+            
+        if(statusId.rowCount === 0){
+            throw new Error('Status Not Found.')
+        }
+        
+        statusId = statusId.rows[0].status_id
+
+        let typeId = await client.query(`select t.type_id from user_reimbursement.reimbursement_types t 
+        where t.type = $1`, [newReimbursement.type])
+            
+        if(typeId.rowCount === 0){
+            throw new Error('Type Not Found.')
+        }
+        typeId = typeId.rows[0].type_id
 
         let results = await client.query(` insert into user_reimbursement.reimbursements 
         ("author", "amount", "date_submitted", "date_resolved", "description", "resolver", "status", "type")

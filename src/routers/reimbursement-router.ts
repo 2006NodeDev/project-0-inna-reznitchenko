@@ -33,7 +33,7 @@ reimbursementRouter.post('/', authorizationMiddleware(['admin','finance-manager'
         resolver,
         status,
         type} = req.body;
-
+        
         if(!author || !amount || !dateSubmitted || !dateResolved || !description || !resolver || !status || !type){
             next(new NewReimbursementInputError)
         }
