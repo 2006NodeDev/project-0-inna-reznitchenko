@@ -6,7 +6,7 @@ import { Reimbursement } from "../models/Reimbursement";
 import { NewReimbursementInputError } from "../errors/NewReimbursementInputError";
 import { UserNotFoundError } from "../errors/UserNotFoundError";
 
-export async function getAllReimbursements(){
+export async function getAllReimbursements():Promise<Reimbursement[]>{
     let client:PoolClient;
     try{
         client = await connectionPool.connect()
@@ -38,7 +38,7 @@ export async function getAllReimbursements(){
 }
 
 
-export async function getReimbursementByStatus(statusId: number){
+export async function getReimbursementByStatus(statusId: number):Promise<Reimbursement[]>{
     console.log("in the dao")
     let client:PoolClient;
     try{
@@ -79,7 +79,7 @@ export async function getReimbursementByStatus(statusId: number){
     }
 }
 
-export async function getReimbursementByUser(userId: number){
+export async function getReimbursementByUser(userId: number):Promise<Reimbursement[]>{
     let client:PoolClient;
     try{
         client = await connectionPool.connect()
@@ -118,7 +118,7 @@ export async function getReimbursementByUser(userId: number){
     }
 }
 
-export async function saveNewReimbursement(newReimbursement:Reimbursement){
+export async function saveNewReimbursement(newReimbursement:Reimbursement):Promise<Reimbursement>{
     console.log("in save new reimbursement")
     console.log(newReimbursement)
     let client:PoolClient
@@ -184,7 +184,7 @@ export async function saveNewReimbursement(newReimbursement:Reimbursement){
     }
 }
 
-export async function patchReimbursement(reimbursement:Reimbursement){
+export async function patchReimbursement(reimbursement:Reimbursement):Promise<Reimbursement[]>{
     let client:PoolClient;
     try{
         client = await connectionPool.connect()

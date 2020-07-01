@@ -34,7 +34,9 @@ export async function getUserById(id: number):Promise<User>{
         client = await connectionPool.connect()
         let results:QueryResult = await client.query(`select u.user_id, 
         u.username , 
-        u."password" , 
+        u."password",
+        u.first_name,
+        u.last_name, 
         u.email ,
         r.role_id , 
         r."role" 
@@ -120,7 +122,9 @@ export async function patchUser(user:User):Promise<User>{
 
         let result:QueryResult = await client.query(`select u.user_id, 
         u.username , 
-        u."password" , 
+        u."password",
+        u.first_name,
+        u.last_name, 
         u.email ,
         r.role_id , 
         r."role" 

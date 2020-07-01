@@ -24,7 +24,7 @@ reimbursementRouter.get('/', authorizationMiddleware(['admin','finance-manager']
     }
 })
 
-reimbursementRouter.post('/', authorizationMiddleware(['admin','finance-manager', 'user']), async (req:Request, res:Response, next:NextFunction) => {
+reimbursementRouter.post('/', authorizationMiddleware(['admin','finance-manager','user']), async (req:Request, res:Response, next:NextFunction) => {
     let {author,
         amount,
         dateSubmitted,

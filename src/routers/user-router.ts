@@ -10,7 +10,6 @@ export let userRouter = express.Router()
 
 userRouter.use(authenticationMiddleware);
 
-//will need to get users and confirm that they are finance-managers
 userRouter.get('/', authorizationMiddleware(['admin','finance-manager']), async  (req:Request, res:Response, next:NextFunction) => {
     try{
         let allUsers = await getAllUsers()
@@ -21,13 +20,12 @@ userRouter.get('/', authorizationMiddleware(['admin','finance-manager']), async 
     }
 })
 
-// will need to get user by ID and confirm that the ID is valid
 userRouter.get('/:id', authorizationMiddleware(['admin','finance-manager','user']), async (req:Request, res:Response, next:NextFunction) => {
     let {id} = req.params;
     if(isNaN(+id)){
         next(new UserIdInputError)
     }
-    else if(req.session.user.userId !== +id){
+    else if(req.session.user.role === "user" && req.session.user.userId !== +id){
         next(new UnauthorizedEndPointError)
     }
     else{
@@ -68,24 +66,5 @@ userRouter.patch('/', authorizationMiddleware(['admin']), async (req:Request, re
     }
 })
     
-
-// userRouter.post('/', (req:Request, res:Response) =>{
-//     console.log(req.body);
-//     let {userId,
-//         username,
-//         password,
-//         firstName,
-//         lastName,
-//         email,
-//         role} = req.body;
-    
-//     if(userId && username && password && firstName && lastName && email && role){
-//         users.push({userId, username, password, firstName, lastName, email, role});
-//         res.sendStatus(201); //created a new object
-//     }
-//     else{
-//         throw new UserInputError();
-//     }
-// })
 
  
